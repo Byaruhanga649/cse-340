@@ -1,23 +1,75 @@
 <%- include('partials/header', { title: title }) %>
 
-    <h1>
-        <%= title %>
-    </h1>
+<section class="organizations-section">
 
-    <p>Welcome to the Organizations page.</p>
+<h1><%= title %></h1>
 
-    <p>Learn more about the organizations working to make a difference in our community.</p>
+<p>Welcome to the Organizations page.</p>
 
+<p>
+    Learn more about the organizations working to make
+    a difference in our community.
+</p>
+
+<div class="organization-grid">
+
+    <!-- Organization 1 -->
     <div class="organization-card">
-        <img src="/images/volunteers.jpg" alt="Volunteers helping their community" class="organization-image">
+        <img
+            src="/images/brightfuture-logo.png"
+            alt="BrightFuture Builders logo"
+            class="organization-image"
+        >
 
-        <h2>Community Volunteers</h2>
+        <h2>BrightFuture Builders</h2>
 
         <p>
-            Community volunteers work together to help people,
-            improve lives, and make our communities better.
+            BrightFuture Builders supports community development
+            through education, construction, and helping families
+            create better living conditions.
         </p>
 
+        <p><strong>Email:</strong> info@brightfuture.org</p>
     </div>
 
-    <%- include('partials/footer') %>
+    <!-- Organization 2 -->
+    <div class="organization-card">
+        <img
+            src="/images/greenharvest-logo.png"
+            alt="GreenHarvest Growers logo"
+            class="organization-image"
+        >
+
+        <h2>GreenHarvest Growers</h2>
+
+        <p>
+            GreenHarvest Growers promotes environmental protection,
+            sustainable agriculture, and community gardening.
+        </p>
+
+        <p><strong>Email:</strong> contact@greenharvest.org</p>
+    </div>
+
+    <!-- Organization 3 -->
+    <div class="organization-card">
+        <img
+            src="/images/unityserve-logo.png"
+            alt="UnityServe Volunteers logo"
+            class="organization-image"
+        >
+
+        <h2>UnityServe Volunteers</h2>
+
+        <p>
+            UnityServe Volunteers connects people with opportunities
+            to support families, assist communities, and improve lives.
+        </p>
+
+        <p><strong>Email:</strong> hello@unityserve.org</p>
+    </div>
+
+</div>
+
+</section>
+
+<%- include('partials/footer') %>

@@ -1,11 +1,60 @@
 <%- include('partials/header', { title: title }) %>
 
-    <h1>
-        <%= title %>
-    </h1>
+    <section class="projects-section">
 
-    <p>Welcome to our Service Projects page.</p>
+        <h1>
+            <%= title %>
+        </h1>
 
-    <p>Discover projects that help improve our community through service and cooperation.</p>
+        <p>Welcome to our Service Projects page.</p>
+
+        <p>
+            Discover projects that help improve our community
+            through service and cooperation.
+        </p>
+
+        <h2>Upcoming Service Projects</h2>
+
+        <div class="project-grid">
+
+            <!-- Project 1 -->
+            <article class="project-card">
+                <h3>Park Cleanup</h3>
+
+                <p>
+                    Join us to clean up local parks, collect litter,
+                    and make our public spaces beautiful and welcoming.
+                </p>
+
+                <p><strong>Category:</strong> Environment</p>
+            </article>
+
+            <!-- Project 2 -->
+            <article class="project-card">
+                <h3>Food Drive</h3>
+
+                <p>
+                    Help collect and distribute food to families
+                    and individuals who need support in our community.
+                </p>
+
+                <p><strong>Category:</strong> Community Support</p>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-card">
+                <h3>Community Tutoring</h3>
+
+                <p>
+                    Volunteer to tutor students in different subjects
+                    and help them improve their education and skills.
+                </p>
+
+                <p><strong>Category:</strong> Education</p>
+            </article>
+
+        </div>
+
+    </section>
 
     <%- include('partials/footer') %>
