@@ -1,75 +1,46 @@
 <%- include('partials/header', { title: title }) %>
 
-<section class="organizations-section">
+    <section class="organizations-section">
 
-<h1><%= title %></h1>
+        <h1>
+            <%= title %>
+        </h1>
 
-<p>Welcome to the Organizations page.</p>
-
-<p>
-    Learn more about the organizations working to make
-    a difference in our community.
-</p>
-
-<div class="organization-grid">
-
-    <!-- Organization 1 -->
-    <div class="organization-card">
-        <img
-            src="/images/brightfuture-logo.png"
-            alt="BrightFuture Builders logo"
-            class="organization-image"
-        >
-
-        <h2>BrightFuture Builders</h2>
+        <p>Welcome to the Organizations page.</p>
 
         <p>
-            BrightFuture Builders supports community development
-            through education, construction, and helping families
-            create better living conditions.
+            Learn more about the organizations working to make
+            a difference in our community.
         </p>
 
-        <p><strong>Email:</strong> info@brightfuture.org</p>
-    </div>
+        <div class="organization-grid">
 
-    <!-- Organization 2 -->
-    <div class="organization-card">
-        <img
-            src="/images/greenharvest-logo.png"
-            alt="GreenHarvest Growers logo"
-            class="organization-image"
-        >
+            <% organizations.forEach(organization=> { %>
 
-        <h2>GreenHarvest Growers</h2>
+                <div class="organization-card">
 
-        <p>
-            GreenHarvest Growers promotes environmental protection,
-            sustainable agriculture, and community gardening.
-        </p>
+                    <img src="/images/<%= organization.logo_filename %>" alt="<%= organization.name %> logo"
+                        class="organization-image">
 
-        <p><strong>Email:</strong> contact@greenharvest.org</p>
-    </div>
+                    <h2>
+                        <%= organization.name %>
+                    </h2>
 
-    <!-- Organization 3 -->
-    <div class="organization-card">
-        <img
-            src="/images/unityserve-logo.png"
-            alt="UnityServe Volunteers logo"
-            class="organization-image"
-        >
+                    <p>
+                        <%= organization.description %>
+                    </p>
 
-        <h2>UnityServe Volunteers</h2>
+                    <p>
+                        <strong>Email:</strong>
+                        <%= organization.contact_email %>
+                    </p>
 
-        <p>
-            UnityServe Volunteers connects people with opportunities
-            to support families, assist communities, and improve lives.
-        </p>
+                </div>
 
-        <p><strong>Email:</strong> hello@unityserve.org</p>
-    </div>
+                <% }); %>
 
-</div>
+        </div>
 
-</section>
+    </section>
 
-<%- include('partials/footer') %>
+    <%- include('partials/footer') %>
