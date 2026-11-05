@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { getAllOrganizations } from './src/models/organizations.js';
+import { getAllProjects } from './src/models/projects.js';
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -37,8 +38,20 @@ app.get("/organizations", async (req, res) => {
     }
 });
 
-app.get("/projects", (req, res) => {
-    res.render("projects", { title: "Service Projects" });
+app.get("/projects", async (req, res) => {
+    try {
+        const projects = await getAllProjects();
+
+        console.log("Projects retrieved:", projects);
+
+        const title = "Service Projects";
+        res.render("projects", { title, projects });
+
+    } catch (error) {
+        console.error("PROJECTS QUERY ERROR:", error);
+
+        res.status(500).send("Unable to retrieve service projects.");
+    }
 });
 
 app.get("/categories", (req, res) => {

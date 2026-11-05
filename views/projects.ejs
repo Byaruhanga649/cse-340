@@ -1,4 +1,4 @@
-<%- include('partials/header', { title: title }) %>
+<% include('partials/header', { title: title }) %>
 
     <section class="projects-section">
 
@@ -17,41 +17,45 @@
 
         <div class="project-grid">
 
-            <!-- Project 1 -->
-            <article class="project-card">
-                <h3>Park Cleanup</h3>
+            <% if (projects && projects.length> 0) { %>
 
-                <p>
-                    Join us to clean up local parks, collect litter,
-                    and make our public spaces beautiful and welcoming.
-                </p>
+                <% projects.forEach((project)=> { %>
 
-                <p><strong>Category:</strong> Environment</p>
-            </article>
+                    <article class="project-card">
 
-            <!-- Project 2 -->
-            <article class="project-card">
-                <h3>Food Drive</h3>
+                        <h3>
+                            <%= project.title %>
+                        </h3>
 
-                <p>
-                    Help collect and distribute food to families
-                    and individuals who need support in our community.
-                </p>
+                        <p>
+                            <%= project.description %>
+                        </p>
 
-                <p><strong>Category:</strong> Community Support</p>
-            </article>
+                        <p>
+                            <strong>Organization:</strong>
+                            <%= project.organization_name %>
+                        </p>
 
-            <!-- Project 3 -->
-            <article class="project-card">
-                <h3>Community Tutoring</h3>
+                        <p>
+                            <strong>Location:</strong>
+                            <%= project.pr_location %>
+                        </p>
 
-                <p>
-                    Volunteer to tutor students in different subjects
-                    and help them improve their education and skills.
-                </p>
+                        <p>
+                            <strong>Date:</strong>
+                            <%= new Date(project.pr_date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long'
+                                , day: 'numeric' , timeZone: 'UTC' }) %>
+                        </p>
 
-                <p><strong>Category:</strong> Education</p>
-            </article>
+                    </article>
+
+                    <% }); %>
+
+                        <% } else { %>
+
+                            <p>No service projects are currently available.</p>
+
+                            <% } %>
 
         </div>
 
