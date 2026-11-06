@@ -79,3 +79,71 @@ VALUES
 (3, 'Family Literacy Night', 'Host an evening of story time and book giveaways for families.', 'Community Learning Center', '2026-12-09'),
 (3, 'Computer Skills Workshop', 'Teach basic computer and internet skills to adults and seniors.', 'Eastside Library Computer Lab', '2026-12-16'),
 (3, 'Book Donation Drive', 'Collect gently used books to stock classroom libraries.', 'Bright Minds Office', '2027-01-13');
+
+-- ========================================
+-- Category Table
+-- ========================================
+
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- ========================================
+-- Insert Categories
+-- ========================================
+
+INSERT INTO category (category_name)
+VALUES
+('Food Assistance'),
+('Environment'),
+('Education'),
+('Community Support'),
+('Technology');
+
+-- ========================================
+-- Project Category Relationship Table
+-- ========================================
+
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+
+    PRIMARY KEY (project_id, category_id),
+
+    FOREIGN KEY (project_id)
+        REFERENCES serviceproject(project_id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE CASCADE
+);
+
+-- ========================================
+-- Associate Projects with Categories
+-- ========================================
+
+INSERT INTO project_category (project_id, category_id)
+
+SELECT sp.project_id, c.category_id
+FROM serviceproject sp
+JOIN category c ON
+(
+    (sp.title = 'Downtown Food Drive' AND c.category_name = 'Food Assistance')
+ OR (sp.title = 'Neighborhood Park Cleanup' AND c.category_name = 'Environment')
+ OR (sp.title = 'Winter Coat Giveaway' AND c.category_name = 'Community Support')
+ OR (sp.title = 'Senior Meal Delivery' AND c.category_name = 'Community Support')
+ OR (sp.title = 'Holiday Toy Drive' AND c.category_name = 'Community Support')
+ OR (sp.title = 'Community Tree Planting' AND c.category_name = 'Environment')
+ OR (sp.title = 'River Cleanup Day' AND c.category_name = 'Environment')
+ OR (sp.title = 'Community Garden Build' AND c.category_name = 'Environment')
+ OR (sp.title = 'Community Garden Build' AND c.category_name = 'Food Assistance')
+ OR (sp.title = 'Recycling Awareness Workshop' AND c.category_name = 'Environment')
+ OR (sp.title = 'Pollinator Habitat Project' AND c.category_name = 'Environment')
+ OR (sp.title = 'After-School Tutoring' AND c.category_name = 'Education')
+ OR (sp.title = 'School Supply Drive' AND c.category_name = 'Education')
+ OR (sp.title = 'Family Literacy Night' AND c.category_name = 'Education')
+ OR (sp.title = 'Computer Skills Workshop' AND c.category_name = 'Technology')
+ OR (sp.title = 'Book Donation Drive' AND c.category_name = 'Education')
+);
