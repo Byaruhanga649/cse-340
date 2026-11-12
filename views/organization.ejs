@@ -1,0 +1,28 @@
+<%- include('partials/header', { title: title }) %>
+
+    <section class="projects-section">
+
+        <h1>
+            <%= organization.name %>
+        </h1>
+
+        <p>
+            <strong>Description:</strong>
+            <%= organization.description %>
+        </p>
+
+        <p>
+            <strong>Contact Email:</strong>
+            <%= organization.contact_email %>
+        </p>
+
+        <p>
+            <strong>Organization ID:</strong>
+            <%= organization.organization_id %>
+        </p>
+
+        <a href="/organizations">Back to Organizations</a>
+
+    </section>
+
+    <%- include('partials/footer') %>

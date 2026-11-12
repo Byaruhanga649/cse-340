@@ -11,4 +11,20 @@ const getAllOrganizations = async () => {
     return result.rows;
 };
 
-export { getAllOrganizations };
+// Get one organization by its ID
+const getOrganizationDetails = async (id) => {
+    const query = `
+        SELECT organization_id, name, description, contact_email, logo_filename
+        FROM public.organization
+        WHERE organization_id = $1;
+    `;
+
+    const result = await db.query(query, [id]);
+
+    return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+export {
+    getAllOrganizations,
+    getOrganizationDetails
+};
