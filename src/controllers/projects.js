@@ -3,6 +3,10 @@ import {
     getProjectDetails
 } from '../models/projects.js';
 
+import {
+    getCategoriesByProjectId
+} from '../models/categories.js';
+
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 // Display upcoming service projects
@@ -31,9 +35,11 @@ const showProjectDetailsPage = async (req, res) => {
             return res.status(404).send("Service project not found.");
         }
 
+        const categories = await getCategoriesByProjectId(id);
+
         const title = project.title;
 
-        res.render("project", { title, project });
+        res.render("project", { title, project, categories });
 
     } catch (error) {
         console.error("PROJECT DETAILS ERROR:", error);
