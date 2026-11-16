@@ -6,7 +6,9 @@ import {
 } from './controllers/projects.js';
 
 import {
-    showOrganizationDetailsPage
+    showOrganizationDetailsPage,
+    showNewOrganizationForm,
+    processNewOrganizationForm
 } from './controllers/organizations.js';
 
 import {
@@ -23,6 +25,9 @@ router.get('/project/:id', showProjectDetailsPage);
 
 // Individual organization details
 router.get('/organization/:id', showOrganizationDetailsPage);
+// Display new organization form
+router.get('/new-organization', showNewOrganizationForm);
+router.post('/new-organization', processNewOrganizationForm);
 
 // Individual category details
 router.get('/category/:id', showCategoryDetailsPage);
