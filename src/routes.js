@@ -8,7 +8,8 @@ import {
 import {
     showOrganizationDetailsPage,
     showNewOrganizationForm,
-    processNewOrganizationForm
+    processNewOrganizationForm,
+    organizationValidation
 } from './controllers/organizations.js';
 
 import {
@@ -27,7 +28,7 @@ router.get('/project/:id', showProjectDetailsPage);
 router.get('/organization/:id', showOrganizationDetailsPage);
 // Display new organization form
 router.get('/new-organization', showNewOrganizationForm);
-router.post('/new-organization', processNewOrganizationForm);
+router.post('/new-organization', organizationValidation, processNewOrganizationForm);
 
 // Individual category details
 router.get('/category/:id', showCategoryDetailsPage);
