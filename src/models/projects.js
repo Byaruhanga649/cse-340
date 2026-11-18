@@ -71,8 +71,35 @@ const getProjectDetails = async (id) => {
     return result.rows.length > 0 ? result.rows[0] : null;
 };
 
+// Create a new service project
+const createProject = async (title, description, location, date, organizationId) => {
+    const query = `
+        INSERT INTO public.serviceproject
+            (title, description, pr_location, pr_date, organization_id)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING project_id;
+    `;
+
+    const queryParams = [
+        title,
+        description,
+        location,
+        date,
+        organizationId
+    ];
+
+    const result = await db.query(query, queryParams);
+
+    if (!result.rows.length) {
+        throw new Error("Failed to create service project.");
+    }
+
+    return result.rows[0].project_id;
+};
+
 export {
     getAllProjects,
     getUpcomingProjects,
-    getProjectDetails
+    getProjectDetails,
+    createProject
 };
