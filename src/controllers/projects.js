@@ -5,7 +5,9 @@ import {
 } from '../models/projects.js';
 
 import {
-    getCategoriesByProjectId
+    getCategoriesByProjectId,
+    getCategoriesForAssignment,
+    assignCategoriesToProject
 } from '../models/categories.js';
 
 import {
@@ -144,10 +146,66 @@ const processNewProjectForm = async (req, res) => {
     }
 };
 
+// Display the category assignment form
+const showAssignCategoriesForm = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+
+        const project = await getProjectDetails(projectId);
+
+        if (!project) {
+            return res.status(404).send('Service project not found.');
+        }
+
+        const categories = await getCategoriesForAssignment(projectId);
+
+        const title = `Assign Categories to ${project.title}`;
+
+        res.render('assign-categories', {
+            title,
+            project,
+            categories
+        });
+
+    } catch (error) {
+        console.error('ASSIGN CATEGORIES FORM ERROR:', error);
+        res.status(500).send('Unable to load category assignment form.');
+    }
+};
+
+// Process the category assignment form
+const processAssignCategoriesForm = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+
+        let { categoryIds } = req.body;
+
+        // Ensure categoryIds is always an array
+        if (!categoryIds) {
+            categoryIds = [];
+        } else if (!Array.isArray(categoryIds)) {
+            categoryIds = [categoryIds];
+        }
+
+        await assignCategoriesToProject(projectId, categoryIds);
+
+        req.flash('success', 'Project categories updated successfully!');
+
+        res.redirect(`/project/${projectId}`);
+
+    } catch (error) {
+        console.error('ASSIGN CATEGORIES ERROR:', error);
+        req.flash('error', 'Unable to update project categories.');
+        res.redirect(`/project/${req.params.id}`);
+    }
+};
+
 export {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
+    showAssignCategoriesForm,
+    processAssignCategoriesForm,
     projectValidation
 };

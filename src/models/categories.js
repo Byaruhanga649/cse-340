@@ -71,9 +71,51 @@ const getProjectsByCategoryId = async (id) => {
     return result.rows;
 };
 
+// Get all categories and identify those assigned to one project
+const getCategoriesForAssignment = async (projectId) => {
+    const query = `
+        SELECT
+            c.category_id,
+            c.category_name,
+            CASE
+                WHEN pc.project_id IS NOT NULL THEN TRUE
+                ELSE FALSE
+            END AS assigned
+        FROM public.category c
+        LEFT JOIN public.project_category pc
+            ON c.category_id = pc.category_id
+            AND pc.project_id = $1
+        ORDER BY c.category_name;
+    `;
+
+    const result = await db.query(query, [projectId]);
+
+    return result.rows;
+};
+
+// Assign selected categories to a project
+const assignCategoriesToProject = async (projectId, categoryIds) => {
+    await db.query(
+        'DELETE FROM public.project_category WHERE project_id = $1;',
+        [projectId]
+    );
+
+    for (const categoryId of categoryIds) {
+        await db.query(
+            `INSERT INTO public.project_category (project_id, category_id)
+             VALUES ($1, $2);`,
+            [projectId, categoryId]
+        );
+    }
+
+    return true;
+};
+
 export {
     getAllCategories,
     getCategoryById,
     getCategoriesByProjectId,
-    getProjectsByCategoryId
+    getProjectsByCategoryId,
+    getCategoriesForAssignment,
+    assignCategoriesToProject
 };

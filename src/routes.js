@@ -5,6 +5,8 @@ import {
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
+    showAssignCategoriesForm,
+    processAssignCategoriesForm,
     projectValidation
 } from './controllers/projects.js';
 
@@ -35,12 +37,19 @@ router.get('/new-project', showNewProjectForm);
 // Process new project form with validation
 router.post('/new-project', projectValidation, processNewProjectForm);
 
+// Display category assignment form
+router.get('/project/:id/assign-categories', showAssignCategoriesForm);
+
+// Process category assignment form
+router.post('/project/:id/assign-categories', processAssignCategoriesForm);
+
 // Individual organization details
 router.get('/organization/:id', showOrganizationDetailsPage);
 
 // Display new organization form
 router.get('/new-organization', showNewOrganizationForm);
 
+// Process new organization form
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
 
 // Display edit organization form
