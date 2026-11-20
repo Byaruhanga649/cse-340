@@ -21,11 +21,40 @@ const getCategoryById = async (id) => {
         WHERE category_id = $1;
     `;
 
-    const queryParams = [id];
-
-    const result = await db.query(query, queryParams);
+    const result = await db.query(query, [id]);
 
     return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+// Create a new category
+const createCategory = async (categoryName) => {
+    const query = `
+        INSERT INTO public.category (category_name)
+        VALUES ($1)
+        RETURNING category_id;
+    `;
+
+    const result = await db.query(query, [categoryName]);
+
+    return result.rows[0].category_id;
+};
+
+// Update an existing category
+const updateCategory = async (categoryId, categoryName) => {
+    const query = `
+        UPDATE public.category
+        SET category_name = $1
+        WHERE category_id = $2
+        RETURNING category_id;
+    `;
+
+    const result = await db.query(query, [categoryName, categoryId]);
+
+    if (result.rows.length === 0) {
+        throw new Error('Category not found');
+    }
+
+    return result.rows[0].category_id;
 };
 
 // Get all categories for one service project
@@ -41,9 +70,7 @@ const getCategoriesByProjectId = async (id) => {
         ORDER BY c.category_name;
     `;
 
-    const queryParams = [id];
-
-    const result = await db.query(query, queryParams);
+    const result = await db.query(query, [id]);
 
     return result.rows;
 };
@@ -64,9 +91,7 @@ const getProjectsByCategoryId = async (id) => {
         ORDER BY sp.pr_date;
     `;
 
-    const queryParams = [id];
-
-    const result = await db.query(query, queryParams);
+    const result = await db.query(query, [id]);
 
     return result.rows;
 };
@@ -114,6 +139,8 @@ const assignCategoriesToProject = async (projectId, categoryIds) => {
 export {
     getAllCategories,
     getCategoryById,
+    createCategory,
+    updateCategory,
     getCategoriesByProjectId,
     getProjectsByCategoryId,
     getCategoriesForAssignment,

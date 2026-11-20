@@ -1,25 +1,31 @@
 <%- include('partials/header', { title: title }) %>
 
-    <h1>
-        <%= title %>
-    </h1>
+<h1><%= title %></h1>
 
-    <p>Welcome to our Categories page.</p>
+<p>Welcome to our Categories page.</p>
 
-    <p>Explore the different categories of community service projects.</p>
+<p>Explore the different categories of community service projects.</p>
 
-    <section class="organization-card">
-        <h2>Service Project Categories</h2>
+<p>
+    <a href="/new-category" class="button">+ Add New Category</a>
+</p>
 
-        <ul>
-            <% categories.forEach(category=> { %>
-                <li>
-                    <a href="/category/<%= category.category_id %>">
-                        <%= category.category_name %>
-                    </a>
-                </li>
-                <% }); %>
-        </ul>
-    </section>
+<section class="organization-card">
+    <h2>Service Project Categories</h2>
 
-    <%- include('partials/footer') %>
+    <ul>
+        <% categories.forEach(category => { %>
+            <li>
+                <a href="/category/<%= category.category_id %>">
+                    <%= category.category_name %>
+                </a>
+
+                | <a href="/edit-category/<%= category.category_id %>">
+                    Edit
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+</section>
+
+<%- include('partials/footer') %>

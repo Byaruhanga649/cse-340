@@ -1,7 +1,8 @@
 import {
     getUpcomingProjects,
     getProjectDetails,
-    createProject
+    createProject,
+    updateProject
 } from '../models/projects.js';
 
 import {
@@ -61,7 +62,6 @@ const projectValidation = [
 const showProjectsPage = async (req, res) => {
     try {
         const projects = await getUpcomingProjects(NUMBER_OF_UPCOMING_PROJECTS);
-
         const title = "Upcoming Service Projects";
 
         res.render("projects", { title, projects });
@@ -76,7 +76,6 @@ const showProjectsPage = async (req, res) => {
 const showProjectDetailsPage = async (req, res) => {
     try {
         const id = req.params.id;
-
         const project = await getProjectDetails(id);
 
         if (!project) {
@@ -84,7 +83,6 @@ const showProjectDetailsPage = async (req, res) => {
         }
 
         const categories = await getCategoriesByProjectId(id);
-
         const title = project.title;
 
         res.render("project", { title, project, categories });
@@ -99,7 +97,6 @@ const showProjectDetailsPage = async (req, res) => {
 const showNewProjectForm = async (req, res) => {
     try {
         const organizations = await getAllOrganizations();
-
         const title = 'Add New Service Project';
 
         res.render('new-project', { title, organizations });
@@ -112,8 +109,6 @@ const showNewProjectForm = async (req, res) => {
 
 // Process the new project form
 const processNewProjectForm = async (req, res) => {
-
-    // Check for validation errors
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -136,7 +131,6 @@ const processNewProjectForm = async (req, res) => {
         );
 
         req.flash('success', 'Service project added successfully!');
-
         res.redirect(`/project/${projectId}`);
 
     } catch (error) {
@@ -146,8 +140,8 @@ const processNewProjectForm = async (req, res) => {
     }
 };
 
-// Display the category assignment form
-const showAssignCategoriesForm = async (req, res) => {
+// Display the edit project form
+const showEditProjectForm = async (req, res) => {
     try {
         const projectId = req.params.id;
 
@@ -157,8 +151,67 @@ const showAssignCategoriesForm = async (req, res) => {
             return res.status(404).send('Service project not found.');
         }
 
-        const categories = await getCategoriesForAssignment(projectId);
+        const organizations = await getAllOrganizations();
+        const title = 'Edit Service Project';
 
+        res.render('edit-project', {
+            title,
+            project,
+            organizations
+        });
+
+    } catch (error) {
+        console.error('EDIT PROJECT FORM ERROR:', error);
+        res.status(500).send('Unable to load the edit project form.');
+    }
+};
+
+// Process the edit project form
+const processEditProjectForm = async (req, res) => {
+    const errors = validationResult(req);
+    const projectId = req.params.id;
+
+    if (!errors.isEmpty()) {
+        errors.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+
+        return res.redirect(`/edit-project/${projectId}`);
+    }
+
+    try {
+        const { title, description, location, date, organizationId } = req.body;
+
+        await updateProject(
+            projectId,
+            title,
+            description,
+            location,
+            date,
+            organizationId
+        );
+
+        req.flash('success', 'Service project updated successfully!');
+        res.redirect(`/project/${projectId}`);
+
+    } catch (error) {
+        console.error('EDIT PROJECT ERROR:', error);
+        req.flash('error', 'Unable to update service project.');
+        res.redirect(`/edit-project/${projectId}`);
+    }
+};
+
+// Display the category assignment form
+const showAssignCategoriesForm = async (req, res) => {
+    try {
+        const projectId = req.params.id;
+        const project = await getProjectDetails(projectId);
+
+        if (!project) {
+            return res.status(404).send('Service project not found.');
+        }
+
+        const categories = await getCategoriesForAssignment(projectId);
         const title = `Assign Categories to ${project.title}`;
 
         res.render('assign-categories', {
@@ -177,10 +230,8 @@ const showAssignCategoriesForm = async (req, res) => {
 const processAssignCategoriesForm = async (req, res) => {
     try {
         const projectId = req.params.id;
-
         let { categoryIds } = req.body;
 
-        // Ensure categoryIds is always an array
         if (!categoryIds) {
             categoryIds = [];
         } else if (!Array.isArray(categoryIds)) {
@@ -190,7 +241,6 @@ const processAssignCategoriesForm = async (req, res) => {
         await assignCategoriesToProject(projectId, categoryIds);
 
         req.flash('success', 'Project categories updated successfully!');
-
         res.redirect(`/project/${projectId}`);
 
     } catch (error) {
@@ -205,6 +255,8 @@ export {
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
+    showEditProjectForm,
+    processEditProjectForm,
     showAssignCategoriesForm,
     processAssignCategoriesForm,
     projectValidation

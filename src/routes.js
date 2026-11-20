@@ -5,6 +5,8 @@ import {
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
+    showEditProjectForm,
+    processEditProjectForm,
     showAssignCategoriesForm,
     processAssignCategoriesForm,
     projectValidation
@@ -20,7 +22,12 @@ import {
 } from './controllers/organizations.js';
 
 import {
-    showCategoryDetailsPage
+    showCategoryDetailsPage,
+    showNewCategoryForm,
+    showEditCategoryForm,
+    processNewCategoryForm,
+    processEditCategoryForm,
+    categoryValidation
 } from './controllers/categories.js';
 
 const router = express.Router();
@@ -36,6 +43,12 @@ router.get('/new-project', showNewProjectForm);
 
 // Process new project form with validation
 router.post('/new-project', projectValidation, processNewProjectForm);
+
+// Display edit project form
+router.get('/edit-project/:id', showEditProjectForm);
+
+// Process edit project form
+router.post('/edit-project/:id', projectValidation, processEditProjectForm);
 
 // Display category assignment form
 router.get('/project/:id/assign-categories', showAssignCategoriesForm);
@@ -57,6 +70,18 @@ router.get('/edit-organization/:id', showEditOrganizationForm);
 
 // Process edit organization form
 router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+
+// Display new category form
+router.get('/new-category', showNewCategoryForm);
+
+// Process new category form
+router.post('/new-category', categoryValidation, processNewCategoryForm);
+
+// Display edit category form
+router.get('/edit-category/:id', showEditCategoryForm);
+
+// Process edit category form
+router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 
 // Individual category details
 router.get('/category/:id', showCategoryDetailsPage);
