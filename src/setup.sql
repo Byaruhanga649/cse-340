@@ -19,19 +19,19 @@ VALUES
 (
 'BrightFuture Builders',
 'A nonprofit focused on improving community infrastructure through sustainable construction projects.',
-'[info@brightfuturebuilders.org](mailto:info@brightfuturebuilders.org)',
+'info@brightfuturebuilders.org(mailto:info@brightfuturebuilders.org)',
 'brightfuture-logo.png'
 ),
 (
 'GreenHarvest Growers',
 'An urban farming collective promoting food sustainability and education in local neighborhoods.',
-'[contact@greenharvest.org](mailto:contact@greenharvest.org)',
+'contact@greenharvest.org(mailto:contact@greenharvest.org)',
 'greenharvest-logo.png'
 ),
 (
 'UnityServe Volunteers',
 'A volunteer coordination group supporting local charities and service initiatives.',
-'[hello@unityserve.org](mailto:hello@unityserve.org)',
+'hello@unityserve.org(mailto:hello@unityserve.org)',
 'unityserve-logo.png'
 );
 
@@ -146,4 +146,32 @@ JOIN category c ON
  OR (sp.title = 'Family Literacy Night' AND c.category_name = 'Education')
  OR (sp.title = 'Computer Skills Workshop' AND c.category_name = 'Technology')
  OR (sp.title = 'Book Donation Drive' AND c.category_name = 'Education')
+);
+-- ========================================
+-- W05: Authentication and Authorization
+-- ========================================
+
+-- Create Roles Table
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+-- Insert Initial Roles
+INSERT INTO roles (role_name, role_description) VALUES
+('user', 'Standard user with basic access'),
+('admin', 'Administrator with full system access');
+
+-- ========================================
+-- Create Users Table
+-- ========================================
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
