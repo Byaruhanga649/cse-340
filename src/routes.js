@@ -30,6 +30,11 @@ import {
     categoryValidation
 } from './controllers/categories.js';
 
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm
+} from './controllers/users.js';
+
 const router = express.Router();
 
 // Upcoming service projects
@@ -85,5 +90,9 @@ router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 
 // Individual category details
 router.get('/category/:id', showCategoryDetailsPage);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
 export default router;
