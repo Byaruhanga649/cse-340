@@ -20,12 +20,17 @@
                     Find Organizations
                 </a>
             </div>
+
+            <% if (isLoggedIn) { %>
+                <p>
+                    <a href="/dashboard">My Dashboard</a>
+                </p>
+                <% } %>
         </div>
 
         <div class="hero-image">
             <img src="/images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
         </div>
-
     </section>
 
     <section class="intro-section">
@@ -73,7 +78,6 @@
                 <a href="/categories">Browse categories →</a>
             </article>
         </div>
-
     </section>
 
     <%- include("partials/footer") %>
