@@ -78,6 +78,23 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
+// Middleware to protect routes based on user role.
+const requireRole = (role) => {
+    return (req, res, next) => {
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in to access this page.');
+            return res.redirect('/login');
+        }
+
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'You do not have permission to access this page.');
+            return res.redirect('/');
+        }
+
+        next();
+    };
+};
+
 // Displays the user dashboard.
 const showDashboard = (req, res) => {
     const user = req.session.user;
@@ -96,5 +113,6 @@ export {
     processLoginForm,
     processLogout,
     requireLogin,
+    requireRole,
     showDashboard
 };

@@ -39,9 +39,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// Make login status and NODE_ENV available to all templates.
+// Make login status, user information, and NODE_ENV available to all templates.
 app.use((req, res, next) => {
     res.locals.isLoggedIn = false;
+
+    // Make the logged-in user's information available to EJS.
+    res.locals.user = req.session && req.session.user
+        ? req.session.user
+        : null;
 
     if (req.session && req.session.user) {
         res.locals.isLoggedIn = true;

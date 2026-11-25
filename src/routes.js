@@ -37,6 +37,7 @@ import {
     processLoginForm,
     processLogout,
     requireLogin,
+    requireRole,
     showDashboard
 } from './controllers/users.js';
 
@@ -48,50 +49,50 @@ router.get('/projects', showProjectsPage);
 // Individual service project details
 router.get('/project/:id', showProjectDetailsPage);
 
-// Display new project form
-router.get('/new-project', showNewProjectForm);
+// Display new project form - Admin only
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
 
-// Process new project form with validation
-router.post('/new-project', projectValidation, processNewProjectForm);
+// Process new project form - Admin only
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
 
-// Display edit project form
-router.get('/edit-project/:id', showEditProjectForm);
+// Display edit project form - Admin only
+router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
 
-// Process edit project form
-router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+// Process edit project form - Admin only
+router.post('/edit-project/:id', requireRole('admin'), projectValidation, processEditProjectForm);
 
-// Display category assignment form
-router.get('/project/:id/assign-categories', showAssignCategoriesForm);
+// Display category assignment form - Admin only
+router.get('/project/:id/assign-categories', requireRole('admin'), showAssignCategoriesForm);
 
-// Process category assignment form
-router.post('/project/:id/assign-categories', processAssignCategoriesForm);
+// Process category assignment form - Admin only
+router.post('/project/:id/assign-categories', requireRole('admin'), processAssignCategoriesForm);
 
 // Individual organization details
 router.get('/organization/:id', showOrganizationDetailsPage);
 
-// Display new organization form
-router.get('/new-organization', showNewOrganizationForm);
+// Display new organization form - Admin only
+router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
 
-// Process new organization form
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+// Process new organization form - Admin only
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
 
-// Display edit organization form
-router.get('/edit-organization/:id', showEditOrganizationForm);
+// Display edit organization form - Admin only
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
 
-// Process edit organization form
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+// Process edit organization form - Admin only
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
-// Display new category form
-router.get('/new-category', showNewCategoryForm);
+// Display new category form - Admin only
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
 
-// Process new category form
-router.post('/new-category', categoryValidation, processNewCategoryForm);
+// Process new category form - Admin only
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
 
-// Display edit category form
-router.get('/edit-category/:id', showEditCategoryForm);
+// Display edit category form - Admin only
+router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
 
-// Process edit category form
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+// Process edit category form - Admin only
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 
 // Individual category details
 router.get('/category/:id', showCategoryDetailsPage);
@@ -104,6 +105,7 @@ router.post('/register', processUserRegistrationForm);
 router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
+
 // Protected dashboard route
 router.get('/dashboard', requireLogin, showDashboard);
 

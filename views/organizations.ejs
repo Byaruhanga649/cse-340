@@ -37,15 +37,25 @@
                         <%= organization.contact_email %>
                     </p>
 
+                    <% if (user && user.role_name==='admin' ) { %>
+                        <p>
+                            <a href="/edit-organization/<%= organization.organization_id %>">
+                                Edit Organization
+                            </a>
+                        </p>
+                        <% } %>
+
                 </div>
 
                 <% }); %>
 
         </div>
 
-        <p>
-            <a href="/new-organization">Add a new organization</a>
-        </p>
+        <% if (user && user.role_name==='admin' ) { %>
+            <p>
+                <a href="/new-organization">Add a new organization</a>
+            </p>
+            <% } %>
 
     </section>
 

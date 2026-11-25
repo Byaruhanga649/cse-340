@@ -12,58 +12,78 @@
             Discover projects that help improve our community
             through service and cooperation.
         </p>
-        <p>
-            <a href="/new-project">Add New Service Project</a>
-        </p>
-        <h2>Upcoming Service Projects</h2>
 
-        <div class="project-grid">
+        <% if (user && user.role_name==='admin' ) { %>
+            <p>
+                <a href="/new-project">Add New Service Project</a>
+            </p>
+            <% } %>
 
-            <% if (projects && projects.length> 0) { %>
+                <h2>Upcoming Service Projects</h2>
 
-                <% projects.forEach((project)=> { %>
+                <div class="project-grid">
 
-                    <article class="project-card">
+                    <% if (projects && projects.length> 0) { %>
 
-                        <h3>
-                            <a href="/project/<%= project.project_id %>">
-                                <%= project.title %>
-                            </a>
-                        </h3>
+                        <% projects.forEach((project)=> { %>
 
-                        <p>
-                            <%= project.description %>
-                        </p>
+                            <article class="project-card">
 
-                        <p>
-                            <strong>Organization:</strong>
-                            <a href="/organization/<%= project.organization_id %>">
-                                <%= project.organization_name %>
-                            </a>
-                        </p>
+                                <h3>
+                                    <a href="/project/<%= project.project_id %>">
+                                        <%= project.title %>
+                                    </a>
+                                </h3>
 
-                        <p>
-                            <strong>Location:</strong>
-                            <%= project.location %>
-                        </p>
+                                <p>
+                                    <%= project.description %>
+                                </p>
 
-                        <p>
-                            <strong>Date:</strong>
-                            <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
-                                day: 'numeric' , timeZone: 'UTC' }) %>
-                        </p>
+                                <p>
+                                    <strong>Organization:</strong>
+                                    <a href="/organization/<%= project.organization_id %>">
+                                        <%= project.organization_name %>
+                                    </a>
+                                </p>
 
-                    </article>
+                                <p>
+                                    <strong>Location:</strong>
+                                    <%= project.location %>
+                                </p>
 
-                    <% }); %>
+                                <p>
+                                    <strong>Date:</strong>
+                                    <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' ,
+                                        month: 'long' , day: 'numeric' , timeZone: 'UTC' }) %>
+                                </p>
 
-                        <% } else { %>
+                                <% if (user && user.role_name==='admin' ) { %>
 
-                            <p>No upcoming service projects are currently available.</p>
+                                    <p>
+                                        <a href="/edit-project/<%= project.project_id %>">
+                                            Edit Project
+                                        </a>
+                                    </p>
 
-                            <% } %>
+                                    <p>
+                                        <a href="/project/<%= project.project_id %>/assign-categories">
+                                            Assign Categories
+                                        </a>
+                                    </p>
 
-        </div>
+                                    <% } %>
+
+                            </article>
+
+                            <% }); %>
+
+                                <% } else { %>
+
+                                    <p>No upcoming service projects are currently available.</p>
+
+                                    <% } %>
+
+                </div>
 
     </section>
 
