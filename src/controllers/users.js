@@ -1,5 +1,9 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import {
+    createUser,
+    authenticateUser,
+    getAllUsers
+} from '../models/users.js';
 
 // Displays the registration form.
 const showUserRegistrationForm = (req, res) => {
@@ -106,6 +110,22 @@ const showDashboard = (req, res) => {
     });
 };
 
+// Displays all registered users (admin only).
+const showUsers = async (req, res) => {
+    try {
+        const users = await getAllUsers();
+
+        res.render('users', {
+            title: 'Registered Users',
+            users
+        });
+    } catch (error) {
+        console.error('Error retrieving users:', error);
+        req.flash('error', 'Unable to retrieve users.');
+        res.redirect('/dashboard');
+    }
+};
+
 export {
     showUserRegistrationForm,
     processUserRegistrationForm,
@@ -114,5 +134,6 @@ export {
     processLogout,
     requireLogin,
     requireRole,
-    showDashboard
+    showDashboard,
+    showUsers
 };
